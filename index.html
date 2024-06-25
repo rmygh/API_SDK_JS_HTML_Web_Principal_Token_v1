@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Integración de Genesys Cloud</title>
+    <!-- Asegúrate de tener la ruta correcta al SDK compilado para navegador -->
+    <script src="https://sdk-cdn.mypurecloud.com/javascript/latest/purecloud-platform-client-v2.min.js"></script>
+	 <!-- Incluir el archivo JS externo para acceso a API-->
+    <script src="AccessLAB.js"></script>
+</head>
+<body>
+<center> <img src="https://marketing4ecommerce.net/wp-content/uploads/2024/02/ias-generadoras-de-imagenes.jpg"/></>
+    <script>
+	
+	
+        // Inicializar el SDK de Genesys Cloud
+        const platformClient = require('platformClient');
+
+        
+		//Genesys Cloud environment
+		const ENVIRONMENT = 'mypurecloud.ie';
+		
+		// Credenciales del cliente OAuth
+        //const clientId = datosAcceso_oauth_navegador.LAB_clientId_oauth_navegador.substring(8,44);
+		const clientId_1 = datosAcceso_oauth_navegador.LAB_clientId_oauth_navegador.substring(8,22);
+		const clientId_2 = datosAcceso_oauth_navegador.LAB_clientId_oauth_navegador.substring(26,48);
+		//clientId=clientId_1+clientId_2;
+		clientId=clientId_1.concat("", clientId_2)
+		//console.log('clientId:'+clientId);
+		//const clientSecret = datosAcceso_oauth_navegador.LAB_clientSecret_oauth_navegador;//Quitado clientsecret porque no se necesita
+		const redirect_uri = "https://rmygh.github.io/API_SDK_JS_HTML_Web_Redirigida_Token_v8/";//Si se actualiza se debe actualizar en OAuth
+		/*var queryStringData = {
+            response_type : "token",
+            client_id : clientId,
+            redirect_uri : "https://rmygh.github.io/API_SDK_JS_HTML_Web_Redirigida_Token_v8/"
+        }
+		const URL_Completa = 'https://login.${ENVIRONMENT}/oauth/authorize?client_id='+queryStringData.client_id+'&response_type=token&redirect_uri='+queryStringData.redirect_uri;*/
+		
+        // Crear una instancia del cliente API y configurar la región
+        const client = platformClient.ApiClient.instance;
+        client.setEnvironment(platformClient.PureCloudRegionHosts.eu_west_1); // Configurar tu región
+
+        //client.loginClientCredentialsGrant(clientId, clientSecret)//Error en la autenticación: Error: The client credentials grant is not supported in a browser.
+		//Redirigir al usuario para iniciar la autenticación
+		let state='OK'
+        client.loginImplicitGrant(clientId, redirect_uri, { state: state });
+        		
+    </script>
+</body>
+</html>
